@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "state_bucket" {
-  bucket = "bruno-bucket-xpto"
+  bucket = "${var.prefix}-bucket-bruno-xpto"
 
   # Tells AWS to encrypt the S3 bucket at rest by default
   server_side_encryption_configuration {
