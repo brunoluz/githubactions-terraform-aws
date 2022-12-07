@@ -15,3 +15,23 @@ jobs:
         with:
           name: terraform
           path: ${{ github.workspace }}//appservice
+  
+  deploy-infra-dev:
+    name: Deploy Infra Dev
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/appservice
+    
+    environment:
+      name: dev
+
+    needs: build
+    steps:
+      - name: Download Terraform
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform
+          path: ${{ github.workspace }}//appservice
+     
