@@ -43,7 +43,7 @@ jobs:
       - name: AWS Test
         id: aws-test
         run: |
-          aws s3api head-object --bucket terraform-states-control --key file.txt || not_exist=true
+          aws s3api head-object --bucket terraform-states-control --key teste/file2.txt || not_exist=true
           if [ $not_exist ]; then
             echo "it does not exist"
           else
