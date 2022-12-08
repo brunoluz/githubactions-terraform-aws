@@ -69,4 +69,4 @@ jobs:
 
       - name: Upload tfstate
         id: upload-tfstate
-        run: aws s3 terraform.tfstate cp s3://terraform-states-control/githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate
+        run: aws s3 cp terraform.tfstate s3://terraform-states-control/githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate
