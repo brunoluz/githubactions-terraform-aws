@@ -39,6 +39,10 @@ jobs:
         with:
           name: terraform
           path: ${{ github.workspace }}//appservice
+
+      - name: AWS Test
+        id: aws-test
+        run: aws sts get-caller-identity
       
       - uses: hashicorp/setup-terraform@v2
         with:
