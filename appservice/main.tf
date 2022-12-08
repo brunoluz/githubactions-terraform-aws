@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "mybucket" {
-  bucket = "mybucket"
+  bucket = "${var.prefix}-brunoluzaccount-mybucket"
   
   tags = {
     Terraform = "true"
