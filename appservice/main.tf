@@ -10,10 +10,11 @@ resource "aws_s3_bucket" "mybucket" {
   }
 }
 
-resource "aws_s3_object" "object" {
-  bucket = aws_s3_bucket.mybucket.bucket
-  key    = "new_object_key"
-}
+#resource "aws_s3_object" "object" {
+#  bucket = aws_s3_bucket.mybucket.bucket
+#  key    = "new_object_key"
+#  source = "file.txt"
+#}
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "mybucket_encryption" {
   bucket = aws_s3_bucket.mybucket.bucket
