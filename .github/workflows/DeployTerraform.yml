@@ -49,10 +49,13 @@ jobs:
         id: validate
         run: terraform validate -no-color
       
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -lock=false
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_ACCESSAWS_SECRET_ACCESS_KEY_KEY_ID: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #- name: Terraform Plan
+      #  id: plan
+      #  run: terraform plan -no-color -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -lock=false
+      #  env:
+      #    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #    AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      #    AWS_ACCESSAWS_SECRET_ACCESS_KEY_KEY_ID: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Validate secrets
+        id: secrets
+        run: echo ${{ secrets.RESOURCE_PREFIX }}
