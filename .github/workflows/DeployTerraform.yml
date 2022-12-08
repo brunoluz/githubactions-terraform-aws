@@ -40,8 +40,8 @@ jobs:
           name: terraform
           path: ${{ github.workspace }}//appservice
 
-      - name: AWS Test
-        id: aws-test
+      - name: Download tfstate
+        id: download-tfstate
         run: |
           aws s3api head-object --bucket terraform-states-control --key githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate || not_exist=true
           if [[ ! $not_exist ]]; then
@@ -66,3 +66,7 @@ jobs:
       
       - name: Terraform Apply
         run: terraform apply -auto-approve -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -lock=false
+
+      - name: Upload tfstate
+        id: upload-tfstate
+        run: aws s3 terraform.tfstate cp s3://terraform-states-control/githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate
