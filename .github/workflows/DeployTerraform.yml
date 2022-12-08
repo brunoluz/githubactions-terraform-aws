@@ -55,3 +55,6 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -lock=false
+      
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var "prefix=${{ secrets.RESOURCE_PREFIX }}" -lock=false
