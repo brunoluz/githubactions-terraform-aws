@@ -45,9 +45,9 @@ jobs:
       - name: Download tfstate
         id: download-tfstate
         run: |
-          aws s3api head-object --bucket terraform-states-control --key githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate || not_exist=true
+          aws s3api head-object --bucket brunoluz-terraform-states-control --key githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate || not_exist=true
           if [[ ! $not_exist ]]; then
-            aws s3 cp s3://terraform-states-control/githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate .
+            aws s3 cp s3://brunoluz-terraform-states-control/githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate .
           fi
       
       - uses: hashicorp/setup-terraform@v2
@@ -71,4 +71,4 @@ jobs:
 
       - name: Upload tfstate
         id: upload-tfstate
-        run: aws s3 cp terraform.tfstate s3://terraform-states-control/githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate
+        run: aws s3 cp terraform.tfstate s3://brunoluz-terraform-states-control/githubactions-terraform-aws/${{ secrets.RESOURCE_PREFIX }}/terraform.tfstate
