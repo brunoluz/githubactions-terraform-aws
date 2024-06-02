@@ -43,3 +43,14 @@ resource "aws_glue_catalog_table" "glue_table" {
     }
   }
 }
+
+data "aws_lakeformation_permissions" "glue_permissions" {
+  principal = aws_iam_role.test_glue_role.arn
+  permissions = ["ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT", "SELECT"]
+  permissions_with_grant_option = ["ALL", "ALTER", "DELETE", "DESCRIBE", "DROP", "INSERT", "SELECT"]
+
+  table {
+    database_name = aws_glue_catalog_database.glue_db.name
+    wildcard = true
+  }
+}
