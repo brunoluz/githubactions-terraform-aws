@@ -44,12 +44,12 @@ resource "aws_glue_catalog_table" "glue_table" {
   }
 }
 
-data "aws_lakeformation_permissions" "glue_permissions" {
-  principal = aws_iam_role.test_glue_role.arn
-  permissions = ["SELECT"]
-
+resource "aws_lakeformation_permissions" "perm1" {
+  principal                     = aws_iam_role.test_glue_role.arn
+  permissions                   = ["SELECT"]
   table {
     database_name = aws_glue_catalog_database.glue_db.name
+    name = aws_glue_catalog_table.glue_table.name
     wildcard = true
   }
 }
