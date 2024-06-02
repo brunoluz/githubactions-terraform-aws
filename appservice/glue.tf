@@ -44,6 +44,18 @@ resource "aws_glue_catalog_table" "glue_table" {
   }
 }
 
+resource "aws_glue_catalog_table" "glue_table_2" {
+  name          = "glue_table_2"
+  database_name = aws_glue_catalog_database.glue_db.name
+
+  storage_descriptor {
+    columns {
+      name = "event"
+      type = "string"
+    }
+  }
+}
+
 resource "aws_lakeformation_permissions" "perm1" {
   principal                     = aws_iam_role.test_glue_role.arn
   permissions                   = ["SELECT", "ALTER", "INSERT"]
