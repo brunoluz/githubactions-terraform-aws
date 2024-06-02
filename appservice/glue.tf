@@ -49,7 +49,7 @@ data "aws_lakeformation_permissions" "glue_permissions" {
   permissions = ["SELECT"]
 
   table {
-    database_name = aws_glue_catalog_database.glue_db.database_name
+    database_name = aws_glue_catalog_database.glue_db.name
     wildcard = true
   }
 }
