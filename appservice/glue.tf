@@ -53,8 +53,4 @@ resource "aws_lakeformation_permissions" "perm1" {
     #name = aws_glue_catalog_table.glue_table.name
     wildcard = true
   }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
