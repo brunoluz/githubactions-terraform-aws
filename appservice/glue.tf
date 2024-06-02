@@ -63,6 +63,4 @@ resource "aws_lakeformation_permissions" "perm1" {
     database_name = aws_glue_catalog_database.glue_db.name
     wildcard = true
   }
-
-  lifecycle { ignore_changes = [ permissions ] }
 }
