@@ -47,6 +47,7 @@ resource "aws_glue_catalog_table" "glue_table" {
 resource "aws_lakeformation_permissions" "perm1" {
   principal                     = aws_iam_role.test_glue_role.arn
   permissions                   = ["SELECT", "ALTER", "INSERT"]
+  permissions_with_grant_option = [] # avoid re-creating permissions on each deploy
   table {
     database_name = aws_glue_catalog_database.glue_db.name
     #name = aws_glue_catalog_table.glue_table.name
