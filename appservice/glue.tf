@@ -30,5 +30,15 @@ resource "aws_glue_catalog_table" "glue_table" {
       name = "new_column_2"
       type = "string"
     }
+    
+    columns{
+      name = "new_column_3"
+      type = "string"
+    }
+
+    columns{
+      name = "new_column_4"
+      type = "string"
+    }
   }
 }
