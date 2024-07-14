@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "s3_glue_db" {
-  bucket = "s3-glue-db"
+  bucket        = "s3-glue-db"
+  force_destroy = true
 }
 
 resource "aws_glue_catalog_database" "glue_db" {
@@ -7,15 +8,10 @@ resource "aws_glue_catalog_database" "glue_db" {
 }
 
 resource "aws_glue_catalog_table" "glue_table" {
-  name          = "glue_table_iceberg"
+  name          = "iceberg_test"
   database_name = aws_glue_catalog_database.glue_db.name
-
+  
   table_type = "EXTERNAL_TABLE"
-
-  parameters = {
-    "table_type" = "ICEBERG"
-    "format"     = "parquet"
-  }
 
   open_table_format_input {
     iceberg_input {
@@ -25,12 +21,10 @@ resource "aws_glue_catalog_table" "glue_table" {
 
   storage_descriptor {
     location = "s3://${aws_s3_bucket.s3_glue_db.bucket}/${aws_glue_catalog_database.glue_db.name}/glue_table_iceberg"
-    # input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
-    # output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
-
     columns {
-      name = "event"
+      name = "new_column_1"
       type = "string"
     }
+
   }
 }
