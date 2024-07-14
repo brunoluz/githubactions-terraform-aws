@@ -10,7 +10,7 @@ resource "aws_glue_catalog_database" "glue_db" {
 resource "aws_glue_catalog_table" "glue_table" {
   name          = "iceberg_test"
   database_name = aws_glue_catalog_database.glue_db.name
-  
+
   table_type = "EXTERNAL_TABLE"
 
   open_table_format_input {
@@ -26,5 +26,9 @@ resource "aws_glue_catalog_table" "glue_table" {
       type = "string"
     }
 
+    columns {
+      name = "new_column_2"
+      type = "string"
+    }
   }
 }
