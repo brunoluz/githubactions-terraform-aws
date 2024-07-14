@@ -1,31 +1,5 @@
-resource "aws_iam_role" "test_glue_role" {
-  name = "test_glue_role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  inline_policy {
-    name = "glue_policy"
-    policy = jsonencode({
-      Version = "2012-10-17"    
-      Statement = [{
-        Action = ["glue:*"]
-        Effect   = "Allow"
-        Resource = "*"
-      }]
-    })
-  }
+resource "aws_s3_bucket" "s3_glue_db" {
+  bucket = "s3-glue-db"
 }
 
 resource "aws_glue_catalog_database" "glue_db" {
@@ -33,34 +7,30 @@ resource "aws_glue_catalog_database" "glue_db" {
 }
 
 resource "aws_glue_catalog_table" "glue_table" {
-  name          = "glue_table"
+  name          = "glue_table_iceberg"
   database_name = aws_glue_catalog_database.glue_db.name
 
+  table_type = "EXTERNAL_TABLE"
+
+  parameters = {
+    "table_type" = "ICEBERG"
+    "format"     = "parquet"
+  }
+
+  open_table_format_input {
+    iceberg_input {
+      metadata_operation = "CREATE"
+    }
+  }
+
   storage_descriptor {
+    location = "s3://${aws_s3_bucket.s3_glue_db.bucket}/${aws_glue_catalog_database.glue_db.name}/glue_table_iceberg"
+    # input_format  = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat"
+    # output_format = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat"
+
     columns {
       name = "event"
       type = "string"
     }
-  }
-}
-
-resource "aws_glue_catalog_table" "glue_table_2" {
-  name          = "glue_table_2"
-  database_name = aws_glue_catalog_database.glue_db.name
-
-  storage_descriptor {
-    columns {
-      name = "event"
-      type = "string"
-    }
-  }
-}
-
-resource "aws_lakeformation_permissions" "perm1" {
-  principal                     = aws_iam_role.test_glue_role.arn
-  permissions                   = ["SELECT", "ALTER", "INSERT"]
-  table {
-    database_name = aws_glue_catalog_database.glue_db.name
-    wildcard = true
   }
 }
